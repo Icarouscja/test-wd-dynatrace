@@ -1,0 +1,49 @@
+name: Dynatrace Connection Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      event_type:
+        description: 'Tipo de evento de Dynatrace'
+        required: false
+        default: 'test'
+      pod_name:
+        description: 'Nombre del pod afectado'
+        required: false
+        default: 'unknown'
+      namespace:
+        description: 'Namespace del pod'
+        required: false
+        default: 'default'
+      problem_id:
+        description: 'ID del problema en Dynatrace'
+        required: false
+        default: 'none'
+
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Dynatrace Event
+        run: |
+          echo "=========================================="
+          echo "Conexion desde Dynatrace recibida!"
+          echo "=========================================="
+          echo "Event Type: ${{ github.event.inputs.event_type }}"
+          echo "Pod Name: ${{ github.event.inputs.pod_name }}"
+          echo "Namespace: ${{ github.event.inputs.namespace }}"
+          echo "Problem ID: ${{ github.event.inputs.problem_id }}"
+          echo "Timestamp: $(date -u)"
+          echo "=========================================="
+
+      # Aqui ira el restart del pod cuando configures AKS
+      # - name: Azure Login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #
+      # - name: Get AKS Credentials
+      #   run: az aks get-credentials --resource-group <RG> --name <CLUSTER>
+      #
+      # - name: Restart Deployment
+      #   run: kubectl rollout restart deployment/${{ github.event.inputs.pod_name }} -n ${{ github.event.inputs.namespace }}

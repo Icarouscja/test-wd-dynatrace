@@ -1,0 +1,8 @@
+# Tokens y secretos
+token.md
+
+# Archivos sensibles
+*.secret
+*.key
+.env
+.env.*
